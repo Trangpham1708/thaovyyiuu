@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Trần Ngọc Thảo Vy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Nền sáng */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative; /* Thêm để làm căn cứ cho các phần tử tuyệt đối */
+        }
+
+        /* Nền ảnh */
+        body::before {
+            content: '';
+            background-image: url('44.jpg'); /* Thay đổi thành đường dẫn ảnh nền của bạn */
+            background-size: cover; /* Lấp đầy toàn bộ khu vực */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1; /* Đặt xuống dưới các phần tử khác */
+            opacity: 0.5; /* Độ mờ của nền ảnh */
+        }
+
+        .center-image {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .center-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #ff69b4;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 240px;
+            height: 240px;
+            margin-top: -120px;
+            margin-left: -120px;
+        }
+
+        .name {
+            position: absolute;
+            font-size: 12px; /* Smaller text */
+            color: #ff69b4;
+        }
+
+        .name:nth-child(odd) {
+            color: red;
+        }
+
+        .heart {
+            color: red;
+        }
+
+        /* Hiệu ứng cuộn cho chữ chạy quanh mép trang */
+        .marquee {
+            position: absolute;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 1; /* Đặt trên nền ảnh */
+            font-size: 24px; /* Kích thước chữ lớn hơn */
+        }
+
+        /* Chạy chữ quanh 4 mép */
+        .marquee.top {
+            top: 10px; /* Đặt vị trí từ trên xuống */
+            width: 100%;
+        }
+
+        .marquee.bottom {
+            bottom: 10px; /* Đặt vị trí từ dưới lên */
+            width: 100%;
+        }
+
+        .marquee.left {
+            left: 10px; /* Đặt vị trí từ trái sang */
+            writing-mode: vertical-rl; /* Chạy chữ dọc */
+            height: 100%;
+            transform: rotate(180deg); /* Đảo ngược để chạy từ trên xuống */
+        }
+
+        .marquee.right {
+            right: 10px; /* Đặt vị trí từ phải sang */
+            writing-mode: vertical-rl; /* Chạy chữ dọc */
+            height: 100%;
+        }
+
+        .marquee span {
+            display: inline-block;
+            animation: marquee 15s linear infinite; /* Thời gian cuộn */
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Chữ chạy quanh các mép -->
+<div class="marquee top">
+    <span>Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ </span>
+</div>
+<div class="marquee bottom">
+    <span>Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️</span>
+</div>
+<div class="marquee left">
+    <span>Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️</span>
+</div>
+<div class="marquee right">
+    <span>Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️ Trần Ngọc Thảo Vy ❤️</span>
+</div>
+
+<div class="center-image">
+    <img src="11.jpg" alt="Center Image">
+    <div class="orbit" id="orbitContainer"></div>
+</div>
+
+<script>
+    const orbitContainer = document.getElementById("orbitContainer");
+    const name = "Trần Ngọc Thảo Vy ";
+    const heart = "❤️";
+
+    // Parametric equation for a smaller heart shape
+    function heartShape(t) {
+        const scale = 20; // Smaller scale to reduce the size of the heart
+        const x = scale * (16 * Math.sin(t) ** 3);
+        const y = -scale * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+        return { x, y };
+    }
+
+    // Loop through multiple points along the heart shape (we'll use 40 points)
+    for (let i = 0; i < 40; i++) {
+        const t = (i / 40) * 2 * Math.PI; // Divide the heart shape into 40 parts
+        const { x, y } = heartShape(t);
+        
+        const nameElement = document.createElement("div");
+        nameElement.classList.add("name");
+        nameElement.style.transform = `translate(${x + 80}px, ${y + 80}px)`; // Adjusted for closer positioning
+
+        nameElement.innerHTML = name + '<span class="heart">' + heart + '</span>';
+        orbitContainer.appendChild(nameElement);
+    }
+</script>
+
+</body>
+</html>
